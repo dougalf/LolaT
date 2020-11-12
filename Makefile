@@ -1,3 +1,4 @@
 all:
-	rsync -t --verbose --recursive --delete --human-readable \
+	rsync -t --verbose --recursive --human-readable \
+		--delete --exclude *.json \
 		--executability --exclude=".?*" . raspberrypi:LolaT/

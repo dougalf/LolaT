@@ -2,8 +2,10 @@
 Liquid Observer: Level, Alert, Trend.
 
 # Description
-Take regular readings of water levels in a tank or bucket. Put those readings
-in a time series database. Add graphing to see trends and a configurable
+Take regular distance readings to the surface of a liquid in a tank or bucket.
+Use those readings to estimate the volume it contains.
+Put this volume estimate into a time series database.
+Add graphing to see trends and a configurable
 alert meachanism for when the level is too high or low.
 
 # Tech used
@@ -12,17 +14,20 @@ alert meachanism for when the level is too high or low.
 
 # Installation
 `git clone https://github.com/dougalf/LolaT`
+
 For how to build the hardware see [PiMyLifeUp](https://pimylifeup.com/raspberry-pi-distance-sensor/)
 
 # Usage
 TDB
 
 # Contributing
-Sure, love to hear from you. Please mail lolat at dougal dot nl
+Sure, love to hear from you on any topic but
+particularly if you have a different hardware sensor.
+Mail lolat at dougal dot nl
 
 # Credits
-Gus at PiMyLifeUp
-Everyone behind Python, InfluxDB, Grafana of course.
+Gus at PiMyLifeUp.
+Everyone behind Raspberry Pi, Python, InfluxDB, Grafana of course.
 
 # License
 GPLv3
