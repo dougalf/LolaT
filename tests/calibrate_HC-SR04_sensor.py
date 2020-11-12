@@ -1,10 +1,32 @@
+# calibrate_HC-SR04_sensor.py
 #!/usr/bin/python3
+"""Code used to test performance and behaviour of HC-SR04 ultrasonic sensor.
+
+Invoke from the command line.
+
+Tells the sensor to transmit an ultrasonic pulse and measures the time it
+takes to receive it back, having bounced off something in the enviornment.
+This time is converted to distance (in meters, rounded to millimeter
+accuracy) and the result printed.  3 such measurements are made, after
+one another and the average is also output.
+
+You can use this code to investigate sensor performance and behaviour by
+placing objects a known distance in front of it, introducing them from
+the side to measure the point at which the distance changes, determining the
+minimum and max distances and so on.
+
+An example result set can be found at
+https://github.com/dougalf/LolaT/wiki/HC-SR04-sensor-calibration
+"""
+
 # Code adapted with thanks from Gus at PiMyLifeUp
 # https://pimylifeup.com/raspberry-pi-distance-sensor/
 # Dougal Featherstone lolat@dougal.nl 2020-11-04
 
 import RPi.GPIO as GPIO
 import time
+
+# Units are meters and seconds throughout.
 
 SPEED_OF_SOUND = 343	# m/s
 

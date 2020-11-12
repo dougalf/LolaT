@@ -1,4 +1,4 @@
-+#!/usr/bin/python
+#!/usr/bin/python
 # Code with thanks from Gus at PiMyLifeUp
 # https://pimylifeup.com/raspberry-pi-distance-sensor/
 
