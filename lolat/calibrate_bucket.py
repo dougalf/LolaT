@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-#/usr/bin/python
 """Generate a JSON file look-up table for sensor reading <> liquid volume.
 
 Guide the user in pouring liquid into the bucket to generate sample points.
@@ -31,7 +30,7 @@ def _open_file():
         FileExistsError if the user doesn't want to over-write an existing file.
     """
     # Words reverse order between this file name and its output. Oh well.
-    # Issue #22 will fix this string being hardocded.
+    # Issue #22 will fix this string being hardcoded.
     MAPPING_FILE_NAME = 'bucket_calibration.json'
     try:
         f = open(MAPPING_FILE_NAME, 'x')

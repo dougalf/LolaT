@@ -58,13 +58,13 @@ class DistanceSensor():
         self.DIST_MIN = 27
         self.DIST_MAX = 4400
 
+        self.PIN_TRIGGER = 7
+        self.PIN_ECHO = 11
+
 
     @contextmanager
     def open(self):
         """Do one time sensor set-up, call in 'with' block, tidy up when done"""
-        self.PIN_TRIGGER = 7
-        self.PIN_ECHO = 11
-
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.PIN_TRIGGER, GPIO.OUT)
         GPIO.setup(self.PIN_ECHO, GPIO.IN)
