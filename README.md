@@ -17,6 +17,12 @@ alert meachanism for when the level is too high or low.
 
 For how to build the hardware see [PiMyLifeUp](https://pimylifeup.com/raspberry-pi-distance-sensor/)
 
+For how to get the Telegraf, InfluxDB and Grafana stack working
+see [Michael Schön's blog](https://nwmichl.net/2020/07/14/telegraf-influxdb-grafana-on-raspberrypi-from-scratch/).
+
+For connecting LolaT to Telegraf you'll need
+'pip3 install pytelegraf'
+
 # Usage
 TDB
 
@@ -26,8 +32,9 @@ particularly if you have a different hardware sensor.
 Mail lolat at dougal dot nl
 
 # Credits
-Gus at PiMyLifeUp.
-Everyone behind Raspberry Pi, Python, InfluxDB, Grafana of course.
+* Gus at PiMyLifeUp.
+* Michael Schön for the TIG stack set-up
+* Everyone behind Raspberry Pi, Python, InfluxDB, Grafana, Telegraf of course.
 
 # License
 GPLv3
