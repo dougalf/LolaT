@@ -18,7 +18,7 @@ HIGH = 1
 LOW = 0
 IN = 1
 OUT = 0
-UNKNOWN = -1
+UNKNOWN = -1	# used for board state, pin direction and pin state
 
 # Then the ones we don't.
 # Future use:
@@ -109,12 +109,10 @@ def _set_board_mode(pin_numbering_style):
     pin_list = _board_to_bcm.values() if _mode == BCM else _board_to_bcm.keys()
 
     # Initialise the board. You may prefer to set these to something else,
-    # including UNKNOWN, depending on the behaviour of the board under
-    # simuation.
-    # You could then test that pins have been setup before being used.
+    # depending on the behaviour of the board under simuation.
     _pins = {}
     for pin in pin_list:
-       _pins[pin] = { 'direction':IN, 'state':LOW }
+       _pins[pin] = { 'direction':UNKNOWN, 'state':UNKNOWN }
 
 
 def is_input(pin):
@@ -325,7 +323,6 @@ def setmode(pin_numbering_style):
     return _set_board_mode(pin_numbering_style)
 
 def setup(pin, direction):
-    # Always clear callbacks when setting pin direction. Your Mileage May Vary.
     return set_direction(pin, direction, clear_callbacks = True)
 
 def output(pin, state):
