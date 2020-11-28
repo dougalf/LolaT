@@ -23,6 +23,11 @@ see [Michael Schön's blog](https://nwmichl.net/2020/07/14/telegraf-influxdb-gra
 For connecting LolaT to Telegraf you'll need
 'pip3 install pytelegraf'
 
+The unit tests use pytest.
+I'm using a Macbook as my dev env so I installed them there:
+`sudo -H pip3 install pytest
+sudo -H pip3 install pytest-timeout`
+
 # Usage
 TDB
 

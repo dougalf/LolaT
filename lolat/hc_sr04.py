@@ -17,9 +17,14 @@ For alternate hardware simply implement equivalent versions of the above.
 # GPIO code from Gus at PiMyLifeUp
 # https://pimylifeup.com/raspberry-pi-distance-sensor/
 
-import RPi.GPIO as GPIO
 import time
 from contextlib import contextmanager
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    # Unit tests won't run in production envrionment.
+    import mock_GPIO as GPIO
+
 
 # ultrasonic ranging module HC - SR04 spec sheet
 # https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf
@@ -30,13 +35,13 @@ from contextlib import contextmanager
 # suggests 30mm is the lowest that will be returned and that results
 # aren't particulary accurate.
 
-# This module could therefore be improved by attempting a propoer
+# This module could therefore be improved by attempting a proper
 # calibration of the sensor and creating a mapping
 # function "when sensor indicates this, actual distance is that".
 # However for LolaT we are going to calibrate the output of this to a volume
-# of liquid so the intermeidate step of length does not have to be accurate.
+# of liquid so the intermediate step of accurate length is irrelevant.
 
-# all distances are in millimeters, all times in seconds
+# All distances are in millimeters, all times in seconds
 
 
 class DistanceSensor():
@@ -92,11 +97,20 @@ class DistanceSensor():
         # the rx to get triggered by the pulse going out in the tx direction
         # ie before it bounces back. Wait for echo pin to go quiet.
         #
+        # ASSUMPTION: that the hardware 'gives up' and raises the pin after
+        # an internal timeout if it _doesn't_ receive the pulse back.
+        # Would be awkward to fire a pulse straight up into the empty air
+        # and then get stuck in this while loop waiting, lonely, forever.
+        #
         # Could do this with a rising edge callback but seems like overkill.
         start_wait_time = time.time()
-        while GPIO.input(self.PIN_ECHO) == 0:
+        while GPIO.input(self.PIN_ECHO) == GPIO.LOW:
             start_wait_time = time.time()
-        while GPIO.input(self.PIN_ECHO) == 1:
+        # Initialise received time in case of race condition: a _very_ short
+        # pulse means the next 'while' test fails and we skip the loop.
+        # Thank-you unit tests.
+        echo_rx_time = start_wait_time
+        while GPIO.input(self.PIN_ECHO) == GPIO.HIGH:
             echo_rx_time = time.time()
         round_trip_time = echo_rx_time - start_wait_time
         return round_trip_time

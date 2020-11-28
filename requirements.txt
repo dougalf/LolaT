@@ -1,0 +1,8 @@
+# This package has been developed cross-platform:
+# Target is a Raspberry Pi (linux2)
+pytelegraf; sys_platform == "linux2"
+RPi; sys_platform == "linux2"
+
+# Dev env is ... not :-)
+pytest; sys_platform != "linux2"
+pytest-timeout; sys_platform != "linux2"
