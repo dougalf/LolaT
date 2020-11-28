@@ -7,7 +7,7 @@ Output is a JSON file of these mappings.
 See issue #23 for feature ideas to improve this.
 """
 
-import os
+# import os
 import json
 from hc_sr04 import DistanceSensor
 
@@ -145,7 +145,7 @@ def main():
 
         print('Writing mapping file.')
         # Use print to put a newline at the end of the output file.
-        print(json.dumps(mappings, indent=4),file=f)
+        print(json.dumps(mappings, indent=4), file=f)
         print('Done.')
 
 

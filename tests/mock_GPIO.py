@@ -18,7 +18,7 @@ HIGH = 1
 LOW = 0
 IN = 1
 OUT = 0
-UNKNOWN = -1	# used for board state, pin direction and pin state
+UNKNOWN = -1  # used for board state, pin direction and pin state
 
 # Then the ones we don't.
 # Future use:
@@ -82,6 +82,7 @@ _pins = {}
 # where direction is RISING (ie LOW to HIGH) or FALLING (ie HIGH to LOW).
 _edge_callback = defaultdict(list)
 
+
 def _cleanup():
     # Reset the board. With apologies to the gods of DRY.
     global _mode
@@ -96,6 +97,7 @@ def _cleanup():
 def _get_board_mode():
     """Return the board's mode: BCM, BOARD or UNKNOWN if not initialised yet."""
     return _mode
+
 
 def _set_board_mode(pin_numbering_style):
     """Set the board's mode: BCM or BOARD."""
@@ -112,7 +114,7 @@ def _set_board_mode(pin_numbering_style):
     # depending on the behaviour of the board under simuation.
     _pins = {}
     for pin in pin_list:
-       _pins[pin] = { 'direction':UNKNOWN, 'state':UNKNOWN }
+        _pins[pin] = {'direction': UNKNOWN, 'state': UNKNOWN}
 
 
 def is_input(pin):
@@ -130,7 +132,7 @@ def get_direction(pin):
     _check_pin_number(pin)
     return _pins[pin]['direction']
 
-def set_direction(pin, direction, clear_callbacks = True):
+def set_direction(pin, direction, clear_callbacks=True):
     """Sets direction (IN or OUT) for given pin.
     Optionally, but by default, clear any callbacks on this pin.
     This will happen even if the old direction is the same as the new."""
@@ -139,7 +141,7 @@ def set_direction(pin, direction, clear_callbacks = True):
         raise ValueError(f'Expected {IN} or {OUT}, got {direction}')
     _pins[pin]['direction'] = direction
     if clear_callbacks:
-        deregister_event_callback(pin, edge_type = None, callback = None)
+        deregister_event_callback(pin, edge_type=None, callback=None)
 
 
 def input_is_high(pin):
@@ -265,15 +267,15 @@ def register_event_callback(pin, edge_type, callback):
         raise ValueError('Edge_type should be RISING or FALLING.')
     _edge_callback[pin].append((edge_type, callback))
 
-def deregister_event_callback(pin, edge_type = None, callback = None):
+def deregister_event_callback(pin, edge_type=None, callback=None):
     global _edge_callback
 
     _check_pin_number(pin)
     if edge_type not in (RISING, FALLING, None):
         raise ValueError('Edge_type should be RISING or FALLING (or None).')
     for callpair in _edge_callback[pin]:
-        if edge_type == None or callpair[0] == edge_type:
-            if callback == None or callpair[1] == callback:
+        if edge_type is None or callpair[0] == edge_type:
+            if callback is None or callpair[1] == callback:
                 _edge_callback[pin].remove(callpair)
                 # No return - could be multiple callbacks on that condistion.
 
@@ -323,7 +325,7 @@ def setmode(pin_numbering_style):
     return _set_board_mode(pin_numbering_style)
 
 def setup(pin, direction):
-    return set_direction(pin, direction, clear_callbacks = True)
+    return set_direction(pin, direction, clear_callbacks=True)
 
 def output(pin, state):
     return set_output_pin_state(pin, state)

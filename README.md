@@ -24,9 +24,12 @@ For connecting LolaT to Telegraf you'll need
 'pip3 install pytelegraf'
 
 The unit tests use pytest.
-I'm using a Macbook as my dev env so I installed them there:
+I'm using a Macbook as my dev env so I developed them there.
+I'm not using any virtual env stuff:
 `sudo -H pip3 install pytest
-sudo -H pip3 install pytest-timeout`
+sudo -H pip3 install pytest-timeout
+sudo -H pip3 install flake8`
+They now run as Github actions in a macos-10.5 env when you do a pull request.
 
 # Usage
 TDB

@@ -2,6 +2,7 @@
 Minimum mock Telegraf for lolat unit testing purposes.
 """
 
+
 class TelegrafClient():
     def __init__(self, host, port, tags):
         assert host == 'localhost'

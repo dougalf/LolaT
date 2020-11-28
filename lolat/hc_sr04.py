@@ -1,4 +1,3 @@
-# hc_sr04.py
 #!/usr/bin/python3
 """Library for measuring distance using the HC-SR04 ultrasonic sensor.
 
@@ -49,12 +48,10 @@ class DistanceSensor():
         """Base class for Exceptions raised by this library"""
         pass
 
-
     class InvalidDistanceError(Error):
         """Sensor return indicates an out of spec distance."""
-        def __init__(self, message): 
-            self.message = message 
-
+        def __init__(self, message):
+            self.message = message
 
     def __init__(self):
         # Set range of valid readings.
@@ -65,7 +62,6 @@ class DistanceSensor():
 
         self.PIN_TRIGGER = 7
         self.PIN_ECHO = 11
-
 
     @contextmanager
     def open(self):
@@ -78,8 +74,7 @@ class DistanceSensor():
             yield self
         finally:
             GPIO.cleanup()
-    
-    
+
     def _get_pulse_round_trip_time(self):
         """Send an ultrasonic pulse. Return the time it takes to come back."""
 
@@ -114,7 +109,6 @@ class DistanceSensor():
             echo_rx_time = time.time()
         round_trip_time = echo_rx_time - start_wait_time
         return round_trip_time
-    
 
     def _get_distance(self):
         """Send an ultrasonic pulse. Use the round trip time taken
@@ -132,13 +126,12 @@ class DistanceSensor():
         # Time is for signal to go there and back so divide by 2.
         distance = 343000 * self._get_pulse_round_trip_time() / 2
         if distance < self.DIST_MIN:
-            raise self.InvalidDistanceError('Nothing in range of sensor?')
-        elif distance > self.DIST_MAX:
             raise self.InvalidDistanceError('Something too close to sensor?')
+        elif distance > self.DIST_MAX:
+            raise self.InvalidDistanceError('Nothing in range of sensor?')
         else:
             return distance
-    
-    
+
     def get_distance(self):
         """Return an estimate in mm of distance to the object nearest to the
         ultrasonic sensor. Rounded to the nearest millimeter.
@@ -152,7 +145,7 @@ class DistanceSensor():
         """
 
         NUM_READINGS = 5
-    
+
         readings = []
         for _ in range(NUM_READINGS):
             try:
@@ -162,7 +155,7 @@ class DistanceSensor():
                 # Therfore don't just ignore one and try and get 4 valid
                 # readings. Something serious is wrong, pass it up.
                 raise
-    
+
         # drop (potential) outliers then return average, to the nearest mm
         ret_val = round((sum(readings) - min(readings) - max(readings))/3)
         return ret_val

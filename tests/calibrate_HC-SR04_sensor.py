@@ -1,4 +1,3 @@
-# calibrate_HC-SR04_sensor.py
 #!/usr/bin/python3
 """Code used to test performance and behaviour of HC-SR04 ultrasonic sensor.
 
@@ -28,7 +27,7 @@ import time
 
 # Units are meters and seconds throughout.
 
-SPEED_OF_SOUND = 343	# m/s
+SPEED_OF_SOUND = 343  # m/s
 
 # ultrasonic ranging module HC - SR04 spec sheet
 # https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf
@@ -36,12 +35,12 @@ SPEED_OF_SOUND = 343	# m/s
 # the ranging accuracy can reach to 3mm"
 
 # trigger pin high signal duration to start ranging
-TRIGGER_DURATION = 10 / 1000000	# 10usec
+TRIGGER_DURATION = 10 / 1000000  # 10usec
 
 # when looping avoid possibility of triggering prematurely from a stray
 # pulse from a previous tx. This delay is equivalent to an echo coming back
 # from ~10m away.
-MIN_CYCLE_TIME = 60 / 1000	# 60msec
+MIN_CYCLE_TIME = 60 / 1000  # 60msec
 
 # looping makes sense eg to take 3 readings in an attempt to increase
 # the accuracy from 3mm
@@ -61,7 +60,7 @@ try:
     print("Waiting for sensor to settle")
     time.sleep(2)
 
-    print( "Calculating distance")
+    print("Calculating distance")
     num_readings = 3
     running_total = 0
 
@@ -74,25 +73,28 @@ try:
         # phyiscal hardwardware set-up should prevent this but don't want
         # the rx to get triggered by the pulse in the tx direction ie before
         # it bounces back. Wait for echo pin to go quiet
-        while GPIO.input(PIN_ECHO)==0:
+        while GPIO.input(PIN_ECHO) == 0:
             pulse_start_time = time.time()
-        while GPIO.input(PIN_ECHO)==1:
+        while GPIO.input(PIN_ECHO) == 1:
             pulse_end_time = time.time()
 
         # spec says pin high time gives "input TTL with a range in proportion".
         # Does that imply we can also get a max distance? Well, whatever we are
         # only interested in the earliest time the pulse comes back.
-        pulse_duration = pulse_end_time - pulse_start_time	# in seconds
+        pulse_duration = pulse_end_time - pulse_start_time  # in seconds
 
         # distance = speed * time
-        # Time is for signal to go there and back so divide by 2
-        distance = round(SPEED_OF_SOUND * pulse_duration / 2, 3)	# in m, to mm accuracy
-        print("Distance: ", int(distance * 1000),"mm")
+        # Time is for signal to go there and back so divide by 2.
+        # In m, to mm accuracy.
+        distance = round(SPEED_OF_SOUND * pulse_duration / 2, 3)
+        print("Distance: ", int(distance * 1000), "mm")
         running_total += distance
 
         time.sleep(MIN_CYCLE_TIME)
 
-    print("Average distance: ", int(round(running_total * 1000 / num_readings)), "mm")
+    print("Average distance: ",
+          int(round(running_total * 1000 / num_readings)),
+          "mm")
 
 finally:
     GPIO.cleanup()

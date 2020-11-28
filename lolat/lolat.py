@@ -21,9 +21,11 @@ def db_handle():
     client = TelegrafClient(host='localhost', port=8094, tags={'src': 'bucket'})
     return client
 
+
 def get_reading(sensor):
     reading = sensor.get_distance()
     return reading
+
 
 def map_volume(reading):
     # The 'round' is important to stop Influx declaring the
@@ -33,6 +35,7 @@ def map_volume(reading):
     # These constants dervied by visual inspection of a best fit line
     # on a Google sheet of the combined calibration data.
     return round((-22.93 * reading) + 2522)
+
 
 def get_reading_and_volume(sensor, get_volume_func):
     try:
@@ -44,9 +47,11 @@ def get_reading_and_volume(sensor, get_volume_func):
 
     return reading, volume
 
+
 def insert_data(client, reading, volume):
     client.metric('lolat', {'reading': reading, 'volume': volume})
     print(f'Sent to db: reading : {reading}, volume: {volume}')
+
 
 def main():
     """Measure the liquid level in a bucket and store it in a databse."""
@@ -59,6 +64,7 @@ def main():
             reading, volume = get_reading_and_volume(sensor, map_volume)
             insert_data(client, reading, volume)
             time.sleep(15 * 60)
+
 
 if __name__ == "__main__":
     main()
