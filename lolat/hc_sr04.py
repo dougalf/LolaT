@@ -126,9 +126,9 @@ class DistanceSensor():
         # Time is for signal to go there and back so divide by 2.
         distance = 343000 * self._get_pulse_round_trip_time() / 2
         if distance < self.DIST_MIN:
-            raise self.InvalidDistanceError('Nothing in range of sensor?')
-        elif distance > self.DIST_MAX:
             raise self.InvalidDistanceError('Something too close to sensor?')
+        elif distance > self.DIST_MAX:
+            raise self.InvalidDistanceError('Nothing in range of sensor?')
         else:
             return distance
 
